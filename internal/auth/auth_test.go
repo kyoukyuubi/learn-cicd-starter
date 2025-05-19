@@ -7,40 +7,40 @@ import (
 
 func TestGetApi(t *testing.T) {
 	cases := []struct {
-		name string
-		h http.Header
+		name        string
+		h           http.Header
 		expectedKey string
-		wantErr bool
+		wantErr     bool
 	}{
 		{
 			name: "Correct Header",
-			h: func() http.Header{
+			h: func() http.Header {
 				h := http.Header{}
 				h.Set("Authorization", "ApiKey CodeHere")
 				return h
 			}(),
 			expectedKey: "CodeHere",
-			wantErr: false,
+			wantErr:     false,
 		},
 		{
 			name: "Right Code, Wrong header",
-			h: func() http.Header{
+			h: func() http.Header {
 				h := http.Header{}
 				h.Set("Code", "ApiKey WrongHeader")
 				return h
 			}(),
 			expectedKey: "CodeHere",
-			wantErr: true,
+			wantErr:     true,
 		},
 		{
-			name: "No Header",
+			name:        "No Header",
 			expectedKey: "",
-			wantErr: true,
+			wantErr:     true,
 		},
 	}
 
 	for _, tt := range cases {
-		t.Run(tt.name, func(t *testing.T){
+		t.Run(tt.name, func(t *testing.T) {
 			api, err := GetAPIKey(tt.h)
 			if err != nil && !tt.wantErr {
 				t.Errorf("GetAPIKey() error = %v, wantErr = %v", err, tt.wantErr)
