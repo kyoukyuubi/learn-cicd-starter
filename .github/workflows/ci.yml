@@ -36,4 +36,6 @@ jobs:
 
       - name: Check formatting
         run: test -z $(go fmt ./...)
+
+      - name: Output formatting error code
         run: echo $?
